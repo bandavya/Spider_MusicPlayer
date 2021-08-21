@@ -19,20 +19,24 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private ArrayList<SongInfo> _songs = new ArrayList<SongInfo>();
     RecyclerView recyclerView;
+    Button play_pause_btn, next_btn, prev_btn, fwd_btn, rew_btn;
     SeekBar seekBar;
     MusicAdapter musicAdapter;
     MediaPlayer mediaPlayer;
     private Handler handler = new Handler();
+    TextView SName;
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
@@ -43,6 +47,15 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
 
+        play_pause_btn = findViewById(R.id.play_pause_btn);
+        next_btn = findViewById(R.id.next_btn);
+        prev_btn = findViewById(R.id.prev_btn);
+        fwd_btn = findViewById(R.id.fwd_btn);
+        rew_btn = findViewById(R.id.rewind_btn);
+        SName = findViewById(R.id.now_playing);
+
+
+
         musicAdapter = new MusicAdapter(this,_songs);
         recyclerView.setAdapter(musicAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -51,16 +64,18 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-
         musicAdapter.setOnItemClickListener(new MusicAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(final Button b, View view, final SongInfo obj, int position) {
+                String SongName = _songs.get(position).getSongname();
+                SName.setText(SongName);
                 if (b.getText().equals("Pause")) {
                     mediaPlayer.stop();
                     mediaPlayer.reset();
                     mediaPlayer.release();
                     mediaPlayer = null;
                     b.setText("Play");
+                    play_pause_btn.setBackgroundResource(R.drawable.ic_baseline_play);
                 } else {
 
                     Runnable r = new Runnable() {
@@ -80,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 });
                                 b.setText("Pause");
+                                play_pause_btn.setBackgroundResource(R.drawable.ic_baseline_pause_24);
+
 
 
                             } catch (Exception e) { }
@@ -96,6 +113,29 @@ public class MainActivity extends AppCompatActivity {
         Thread t = new MyThread();
         t.start();
 
+    }
+
+
+
+
+    @Override
+    public void onClick(View v) {
+        play_pause_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (mediaPlayer.isPlaying()) {
+
+
+                    play_pause_btn.setBackgroundResource(R.drawable.ic_baseline_play);
+                    mediaPlayer.pause();
+                } else {
+                    play_pause_btn.setBackgroundResource(R.drawable.ic_baseline_pause_24);
+                    mediaPlayer.start();
+                }
+            }
+
+        });
     }
 
     public class MyThread extends Thread{
@@ -140,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode){
             case 123:
                 if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                     loadSongs();
+                    loadSongs();
 
                 }else {
                     Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
@@ -159,20 +199,20 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = getContentResolver().query(uri,null,selection,null,null);
 
         //Cursor cursor = getApplicationContext().getContentResolver().query(uri,null,selection,null,null);
-        Toast.makeText(this, "load songs para test", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "load songs para test", Toast.LENGTH_SHORT).show();
 
 
         if(cursor != null){
-            Toast.makeText(this, "load songs", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "load songs", Toast.LENGTH_SHORT).show();
             if(cursor.moveToFirst()){
                 do{
                     String name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
-                    Toast.makeText(this, "display name load songs"+name, Toast.LENGTH_SHORT).show();
-                    //String artist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
-                    //String album = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM));
+                    //Toast.makeText(this, "display name load songs"+name, Toast.LENGTH_SHORT).show();
+                    String artist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
+                    String album = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM));
                     String url = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
-                    String album = "NULL";
-                    String artist = "NULL";
+                    //String album = "NULL";
+                    //String artist = "NULL";
 
                     SongInfo s = new SongInfo(name,artist,album, url);
                     _songs.add(s);
@@ -181,9 +221,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             cursor.close();
-            Toast.makeText(this, "music adapter data"+_songs, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "music adapter data"+_songs, Toast.LENGTH_SHORT).show();
             musicAdapter = new MusicAdapter(MainActivity.this,_songs);
 
         }
     }
+
 }
