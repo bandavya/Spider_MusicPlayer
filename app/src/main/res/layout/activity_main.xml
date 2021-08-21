@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/background">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
@@ -13,11 +14,75 @@
         android:id="@+id/recyclerview"
         android:layout_weight="1">
     </androidx.recyclerview.widget.RecyclerView>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Song Ttile"
+        android:id="@+id/now_playing"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:ellipsize="marquee" />
     <SeekBar
         android:layout_weight="0"
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/play_btn"
+            android:layout_width="100sp"
+            android:layout_height="100sp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/ic_baseline_play"
+            app:backgroundTint="#F922FB" />
+
+
+        <Button
+            android:id="@+id/next_btn"
+            android:layout_width="80sp"
+            android:layout_height="80sp"
+            android:layout_toRightOf="@+id/play_btn"
+            android:layout_marginTop="10sp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/ic_baseline_skip_next_24"
+            app:backgroundTint="#F922FB" />
+        <Button
+            android:id="@+id/prev_btn"
+            android:layout_width="80sp"
+            android:layout_height="80sp"
+            android:layout_toLeftOf="@id/play_btn"
+            android:layout_marginTop="10sp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/ic_baseline_skip_previous_24"
+            app:backgroundTint="#F922FB" />
+        <Button
+            android:id="@+id/rewind_btn"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:layout_toLeftOf="@id/prev_btn"
+            android:layout_marginTop="25sp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/ic_baseline_fast_rewind_24"
+            app:backgroundTint="#F922FB" />
+        <Button
+            android:id="@+id/fwd_btn"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:layout_toRightOf="@id/next_btn"
+            android:layout_marginTop="25sp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/ic_baseline_fast_forward_24"
+            app:backgroundTint="#F922FB" />
+
+    </RelativeLayout>
+
+
+
 
 </LinearLayout>

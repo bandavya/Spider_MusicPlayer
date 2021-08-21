@@ -14,8 +14,9 @@ import java.util.ArrayList;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> {
     private ArrayList<SongInfo> _songs = new ArrayList<SongInfo>();
-    private Context context;
-    OnItemClickListener mOnItemClickListener;
+    private final Context context;
+    private OnItemClickListener mOnItemClickListener;
+
     public MusicAdapter(Context context, ArrayList<SongInfo> songs) {
         this.context = context;
         this._songs = songs;
@@ -40,6 +41,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         SongInfo s = _songs.get(position);
         holder.tvSongName.setText(_songs.get(position).getSongname());
         holder.tvSongArtist.setText(_songs.get(position).getArtistname());
+        holder.tvSongAlbum.setText(_songs.get(position).getAlbumname());
         holder.play_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,13 +58,14 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         return _songs.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvSongName,tvSongArtist;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView tvSongName,tvSongArtist, tvSongAlbum;
         Button play_btn;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvSongName = (TextView) itemView.findViewById(R.id.tvSongName);
             tvSongArtist = (TextView) itemView.findViewById(R.id.tvArtistName);
+            tvSongAlbum = (TextView) itemView.findViewById(R.id.tvAlbumName);
             play_btn = (Button) itemView.findViewById(R.id.btnPlay);
         }
     }

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/transparent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,20 +23,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="Somg Name" />
+            android:text="Somg Name"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/tvArtistName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:text="Artist name" />
+            android:text="Artist name"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/tvAlbumName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="Album name" />
     </LinearLayout>
+
         <Button
             android:id="@+id/btnPlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:text="Play" />
+            android:text="Play"
+            app:backgroundTint="@color/pink" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
